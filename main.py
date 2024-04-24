@@ -6,7 +6,7 @@ from Core.ingestion import get_runescape_data
 if __name__ == "__main__":
 
     # Pega dados fonte
-    get_runescape_data(100)
+    #get_runescape_data(100)
 
     # Instancia classe de pyspark
     rs = PySparkRuneScape()
@@ -15,7 +15,11 @@ if __name__ == "__main__":
     members_monsters = rs.filter_data(rs.source_data, "members", "true")
     members_monsters.show()
 
-    # Conta quantos monstros são para "membros e quantos não"
+    # Ordena monstros para "membros" por released_date
+    members_monsters_ordered = rs.order_by_release(members_monsters)
+    members_monsters_ordered.show()
+
+    # Conta quantos monstros são para "membros" e quantos não
     members_monsters_count = rs.group_by_count(rs.source_data, "members")
     members_monsters_count.show()
 

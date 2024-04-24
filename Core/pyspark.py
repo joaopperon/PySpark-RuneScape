@@ -2,7 +2,8 @@ import os
 
 from Core.constants import *
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, window
+from pyspark.sql.window import Window
+from pyspark.sql.functions import col, row_number
 
 class PySparkRuneScape():
     def __init__(self):
@@ -30,5 +31,10 @@ class PySparkRuneScape():
     def group_by_count(self, df, column: str):
         return df.groupBy(column).count()
 
+    def order_by_release(self, df):
+        window_spec = Window.orderBy("date_released")
+        return df.withColumn("row_number", row_number().over(window_spec))
+
     def convert_to_parquet(self, df):
         df.write.parquet(self.destination_path, mode="overwrite")
+    
