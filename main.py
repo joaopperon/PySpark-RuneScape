@@ -6,7 +6,7 @@ from Core.ingestion import get_runescape_data
 if __name__ == "__main__":
 
     # Pega dados fonte
-    #get_runescape_data(100)
+    get_runescape_data(10)
 
     # Instancia classe de pyspark
     rs = PySparkRuneScape()
